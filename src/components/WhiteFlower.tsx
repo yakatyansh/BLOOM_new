@@ -1,49 +1,54 @@
 "use client"
-
-import React, { useEffect, useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
-const FlowerBase: React.FC = () => {
+const LilyScene: React.FC = () => {
   const mountRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!mountRef.current) return;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer();
+    scene.background = new THREE.Color(0xf0f0f0);
 
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     mountRef.current.appendChild(renderer.domElement);
 
-    const geometry = new THREE.BoxGeometry();
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
+    const ambientLight = new THREE.AmbientLight(0x404040);
+    scene.add(ambientLight);
 
-    camera.position.z = 5;
+    const pointLight = new THREE.PointLight(0xffffff, 1);
+    pointLight.position.set(5, 5, 5);
+    scene.add(pointLight);
+
+    camera.position.z = 2;
+
+    const loader = new GLTFLoader();
+    loader.load('/assets/scene.gltf', (gltf) => {
+      scene.add(gltf.scene);
+    }, undefined, (error) => {
+      console.error(error);
+    });
 
     const animate = () => {
       requestAnimationFrame(animate);
-
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
-
       renderer.render(scene, camera);
     };
-
     animate();
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.update();
 
     return () => {
-      controls.dispose();
+      mountRef.current?.removeChild(renderer.domElement);
     };
   }, []);
 
   return <div ref={mountRef} />;
-}
+};
 
-export default FlowerBase;
+export default LilyScene;
