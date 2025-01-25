@@ -8,6 +8,10 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["Playfair Display", "sans-serif"],
+        mono: ["Playfair Display", "monospace"],
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
