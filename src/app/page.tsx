@@ -40,7 +40,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="vision" className="h-screen grid md:grid-cols-2 items-center gap-8">
+        <section id="features" className="h-screen grid md:grid-cols-2 items-center gap-8">
           <div className="space-y-6">
             <p className="text-lg leading-relaxed text-w-[40ch]">
               Bloom is a digital platform designed for connection and inspiration.
