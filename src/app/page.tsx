@@ -4,27 +4,40 @@ import WhiteFlower from "../components/WhiteFlower";
 
 export default function Home() {
   const [cameraPosition, setCameraPosition] = useState({ x: 0, y: 0, z: 2 });
+  const [showHeader, setShowHeader] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowHeader(window.scrollY > window.innerHeight * 0.7);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <main className="relative font-sans min-h-screen bg-black text-white overflow-x-hidden">
-      {/* Fixed Header */}
-      <header className="fixed top-8 left-1/2 -translate-x-1/2 
+    <main className="relative font-sans bg-black text-white">
+      <header className={`fixed top-0 left-1/2 -translate-x-1/2 
                       bg-white/10 backdrop-blur-md
-                      px-8 py-4 rounded-full
+                      px-6 py-3 rounded-full
                       border border-white/20
                       shadow-lg
                       z-[100]
-                      w-fit">
-        <nav className="flex gap-8 text-sm">
+                      w-fit
+                      transition-all duration-500
+                      ${showHeader ? 'opacity-100 translate-y-2' : 'opacity-0 translate-y-0'}`}>
+        <nav className="flex gap-6 text-sm">
           <a href="#hero" className="hover:text-white/70 transition-colors">Home</a>
           <a href="#vision" className="hover:text-white/70 transition-colors">Vision</a>
           <a href="#features" className="hover:text-white/70 transition-colors">Features</a>
         </nav>
       </header>
-
       <div className="max-w-4xl mx-auto px-4">
         <section id="hero" className="h-screen flex flex-col items-center justify-center">
+          <div className="mb-16">
+          </div>
           <h1 className="text-7xl font-playfair">BloomScroll</h1>
+          <p className="text-2xl mt-4 text-gray-500">A social media platform for human flourishing</p>
         </section>
 
         <section id="vision" className="h-screen grid md:grid-cols-2 items-center gap-8">
