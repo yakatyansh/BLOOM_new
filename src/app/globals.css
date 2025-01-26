@@ -28,3 +28,32 @@ body {
   opacity: 0;
   animation: fadeIn 0.5s ease-out forwards;
 }
+
+@keyframes bloom {
+  from {
+    transform: scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotate(360deg);
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.petal {
+  transform-origin: center;
+  animation: bloom 1.5s ease-out forwards;
+}
+
+.floating {
+  animation: float 3s ease-in-out infinite;
+}
