@@ -1,25 +1,23 @@
 "use client"
 import { useEffect, useState } from 'react';
-import FlowerSVG from '../components/FlowerSVG';
 
 export default function Home() {
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [flowerPosition, setFlowerPosition] = useState('center');
-  const [showHeader, setShowHeader] = useState(true);
+  const [showHeader, setShowHeader] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       const progress = window.scrollY / window.innerHeight;
       setScrollProgress(progress);
       
-      if (progress < 1) {
-        setFlowerPosition('center');
-      } else if (progress < 2) {
-        setFlowerPosition('right');
+
+      // Show header after first section
+      if (progress > 0.5) {
+        setShowHeader(true);
       } else {
-        setFlowerPosition('left');
-      setShowHeader(progress < 1);
-    };
+        setShowHeader(false);
+      }
+
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -43,16 +41,6 @@ export default function Home() {
           <a href="#features" className="hover:text-white/70 transition-colors">Features</a>
         </nav>
       </header>
-      
-      <div className="fixed transition-all duration-700 ease-in-out floating"
-           style={{
-             top: '50%',
-             left: flowerPosition === 'center' ? '50%' : 
-                   flowerPosition === 'right' ? '70%' : '30%',
-             transform: `translate(-50%, -50%) scale(${scrollProgress < 0.5 ? 1 : 0.6})`,
-           }}>
-        <FlowerSVG className="w-32 h-32" />
-      </div>
 
       <div className="max-w-4xl mx-auto px-4">
         <section id="hero" className="h-screen flex flex-col items-center justify-center">
@@ -82,7 +70,9 @@ export default function Home() {
             <p className="text-lg leading-relaxed text-w-[60ch]">
               Experience meaningful connections through intentional interactions.
               Tools and content designed to nurture personal development.
-              Creating an environment that uplifts and inspires.
+              Creating an environment that uplifts and inspires.Join a community that values authenticity and positivity.
+              Engage in conversations that matter and connect with others who share your values.
+              Together, we can create a space where everyone can thrive.
             </p>
           </div>
         </section>
